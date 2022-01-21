@@ -10,7 +10,7 @@ If Zone transfer is not successful then DNS enumberation is performed.
 ## Usage
 
 ```bash
-Syntax: dnsenum.sh [-d|h|f|a|t]
+Syntax: dnsenum.sh [-d|h|f|s|t]
 options:
 -d     Domain to query.
 -h     Print this Help.
