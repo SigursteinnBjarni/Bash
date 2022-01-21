@@ -5,8 +5,8 @@
 This scipt will print all **TXT**,**MX** and **NS** records for a given domain.  
 It will attempt **Zone transfer** againts the Nameservers for the given domain.
 
-If Zone transfer is not successful then DNS enumberation is executed.
-
+If Zone transfer is not successful then DNS enumberation is performed.
+#### This script takes advantage of "parallelism" by running the DNS enumeration via backround jobs
 ## Usage
 
 ```bash
