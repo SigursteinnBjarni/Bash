@@ -18,13 +18,13 @@ options:
 -s     DNS server used for quyering, defaults to resolv.conf
 -t     Max background jobs to run.
 ```
-Run enumeration against example.com domain and query subdomains in subdomain.txt  
+Run enumeration against **example.com** domain and query subdomains in **subdomain.txt**  
 10 backround jobs will be created.
 ```bash
 dnsenum.sh -d example.com -f subdomain.txt -t 10
 ```
-Run enumeration against example.com domain and query subdomains in subdomain.txt  
-The DNS server 8.8.8.8 will be used for the DNS queries  
+Run enumeration against **example.com** domain and query subdomains in **subdomain.txt**  
+The DNS server **8.8.8.8** will be used for the DNS queries  
 10 backround jobs will be created.
 ```bash
 dnsenum.sh -d example.com -s 8.8.8.8 -f subdomain.txt -t 10
