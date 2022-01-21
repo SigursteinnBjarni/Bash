@@ -14,7 +14,7 @@ print_help(){
    echo "-h     Print this Help."
    echo "-f     File for DNS enumeration"
    echo "-s     DNS server used for quyering, defaults to resolv.conf"
-   echo "-t		Max background jobs to run."
+   echo "-t	Max background jobs to run."
 }
 
 dns_enum(){
