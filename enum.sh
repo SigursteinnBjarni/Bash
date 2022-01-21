@@ -49,6 +49,13 @@ then
 	DNS=$(cat /etc/resolv.conf |grep -i '^nameserver'|head -n1|cut -d ' ' -f2)
 fi
 
+echo "======= ASN ======="
+IP=$(host $DOMAIN | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+whois $IP | grep -E "OriginAS|origin"
+whois $IP | grep -E "org-name|OrgName"
+
+echo
+
 echo "======= TXT records ======="
 host -t txt $DOMAIN
  
