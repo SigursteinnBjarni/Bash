@@ -49,7 +49,7 @@ then
 	DNS=$(cat /etc/resolv.conf |grep -i '^nameserver'|head -n1|cut -d ' ' -f2)
 fi
 
-echo "======= ASN ======="
+echo "======= ASN info ======="
 IP=$(host $DOMAIN | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 AS=$(whois $IP | grep -E "OriginAS|origin" | awk -F " " '{print $2}')
 ORG=$(whois $IP | grep -E "org-name|OrgName")
