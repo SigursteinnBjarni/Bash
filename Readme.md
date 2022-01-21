@@ -1,7 +1,5 @@
 # Some (hopefully) useful bash scripts
 
-Foobar is a Python library for dealing with word pluralization.
-
 ## DNSenum.sh ... DNS enumeration script
 
 This scipt will print all **TXT**,**MX** and **NS** records for a given domain.  
