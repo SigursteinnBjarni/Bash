@@ -8,7 +8,7 @@ BOLD="\e[1m"
 
 print_help(){
    # Display Help
-   echo "Syntax: dnsenum.sh [-d|h|f|a|t]"
+   echo "Syntax: dnsenum.sh [-d|h|f|s|t]"
    echo "options:"
    echo "-d     Domain to query."
    echo "-h     Print this Help."
