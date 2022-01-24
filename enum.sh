@@ -14,7 +14,7 @@ print_help(){
    echo "-h     Print this Help."
    echo "-f     File for DNS enumeration"
    echo "-s     DNS server used for quyering, defaults to resolv.conf"
-   echo "-t	Max background jobs to run."
+   echo "-t		Max background jobs to run."
 }
 
 dns_enum(){
@@ -29,7 +29,7 @@ do
         f) FILE=${OPTARG};;
 	t) CONCURR=${OPTARG};;
 	h) print_help
-	   exit;;
+           exit;;
     esac
 done
 
@@ -49,7 +49,7 @@ then
 	DNS=$(cat /etc/resolv.conf |grep -i '^nameserver'|head -n1|cut -d ' ' -f2)
 fi
 
-echo "======= ASN info ======="
+echo "======= Domain information ======="
 IP=$(host $DOMAIN | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 AS=$(whois $IP | grep -E "OriginAS|origin" | awk -F " " '{print $2}')
 ORG=$(whois $IP | grep -E "org-name|OrgName" | cut -d ":" -f2 | sed 's/^ *//g' )
@@ -57,6 +57,7 @@ if [ -z "$ORG" ]
 then
 	ORG=$(whois $DOMAIN | grep -m1 "role")
 fi
+
 echo -e "ASN: ${GREEN}$AS${ENDCOLOR}"
 echo "Organisation: "$ORG
 IPRANGE=$(curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" -s https://ipinfo.io/${AS} | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/..' | grep -v "0.0.0.0" | uniq)
@@ -66,6 +67,19 @@ do
 	echo -e "${GREEN}$range${ENDCOLOR}"
 done
 echo
+
+if [[ "$DOMAIN" == *.is ]]
+then
+	echo "======= Owner and Technical registrations ======="
+	INFO=$(whois $DOMAIN | grep -E "admin-c|tech-c|zone-c|billing-c|role" | cut -d ":" -f2 | sed 's/^ *//g' | sort |uniq)
+	OLDIFS=$IFS
+	IFS="\n"
+	for info in $INFO
+	do
+		echo -e "${GREEN}$info${ENDCOLOR}"
+	done
+	IFS=$OLDIFS
+fi
 
 echo "======= TXT records ======="
 host -t txt $DOMAIN
