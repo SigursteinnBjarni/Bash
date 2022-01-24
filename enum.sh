@@ -27,9 +27,9 @@ do
         d) DOMAIN=${OPTARG};;
         s) DNS=${OPTARG};;
         f) FILE=${OPTARG};;
-		t) CONCURR=${OPTARG};;
-		h) print_help
-		   exit;;
+	t) CONCURR=${OPTARG};;
+	h) print_help
+	   exit;;
     esac
 done
 
