@@ -29,7 +29,7 @@ do
         f) FILE=${OPTARG};;
 	t) CONCURR=${OPTARG};;
 	h) print_help
-           exit;;
+	   exit;;
     esac
 done
 
@@ -108,7 +108,7 @@ do
 		echo -e "${GREEN}[+] Zone Transfer successful on $i !!${ENDCOLOR}"
 		host -l $DOMAIN $i
 		echo -e "${GREEN}[+] ======= No NEED for Further Busting! =======${ENDCOLOR}" 
-		#exit 0
+		exit 0
 	fi
 done
 
