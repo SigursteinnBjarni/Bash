@@ -14,7 +14,7 @@ print_help(){
    echo "-h     Print this Help."
    echo "-f     File for DNS enumeration"
    echo "-s     DNS server used for quyering, defaults to resolv.conf"
-   echo "-t	Max background jobs to run."
+   echo "-t		Max background jobs to run."
 }
 
 dns_enum(){
@@ -27,9 +27,9 @@ do
         d) DOMAIN=${OPTARG};;
         s) DNS=${OPTARG};;
         f) FILE=${OPTARG};;
-	t) CONCURR=${OPTARG};;
-	h) print_help
-	   exit;;
+		t) CONCURR=${OPTARG};;
+		h) print_help
+		   exit;;
     esac
 done
 
@@ -53,9 +53,13 @@ echo "======= ASN info ======="
 IP=$(host $DOMAIN | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 AS=$(whois $IP | grep -E "OriginAS|origin" | awk -F " " '{print $2}')
 ORG=$(whois $IP | grep -E "org-name|OrgName")
+if [ -Z $ORG ]
+then
+	ORG=$(whois $DOMAIN | grep -m1 "role")
+fi
 echo -e "ASN: ${GREEN}$AS${ENDCOLOR}"
-echo $ORG
-IPRANGE=$(curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" -s https://ipinfo.io/${AS} | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/..' | uniq)
+echo "Organisation: "$ORG
+IPRANGE=$(curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" -s https://ipinfo.io/${AS} | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/..' | grep -v "0.0.0.0" | uniq)
 echo "IP Address Range:"
 for range in $IPRANGE
 do
