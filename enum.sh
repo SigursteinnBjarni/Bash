@@ -14,7 +14,7 @@ print_help(){
    echo "-h     Print this Help."
    echo "-f     File for DNS enumeration"
    echo "-s     DNS server used for quyering, defaults to resolv.conf"
-   echo "-t		Max background jobs to run."
+   echo "-t	Max background jobs to run."
 }
 
 dns_enum(){
@@ -60,20 +60,26 @@ fi
 
 echo -e "ASN: ${GREEN}$AS${ENDCOLOR}"
 echo "Organisation: "$ORG
-IPRANGE=$(curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" -s https://ipinfo.io/${AS} | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/..' | grep -v "0.0.0.0" | uniq)
-echo "IP Address Range:"
-for range in $IPRANGE
-do
-	echo -e "${GREEN}$range${ENDCOLOR}"
-done
-echo
+if [ -z "$(echo $ORG | egrep -i "amazon|google|microsoft|azure")" ]
+then
+	IPRANGE=$(curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0" -s https://ipinfo.io/${AS} | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/..' | grep -v "0.0.0.0" | uniq)
+	echo "IP Address Range:"
+	for range in $IPRANGE
+	do
+		echo -e "${GREEN}$range${ENDCOLOR}"
+	done
+	echo
+else
+	echo -e "${RED}[-] ASN Belongs to a major cloud providor, skipping IPrange${ENDCOLOR}"
+fi
+
 
 if [[ "$DOMAIN" == *.is ]]
 then
 	echo "======= Owner and Technical registrations ======="
-	INFO=$(whois $DOMAIN | grep -E "admin-c|tech-c|zone-c|billing-c|role" | cut -d ":" -f2 | sed 's/^ *//g' | sort |uniq)
+	INFO=$(whois $DOMAIN | grep -E "admin-c|tech-c|zone-c|billing-c|role|registrant|e-mail" | cut -d ":" -f2 | sed 's/^ *//g' | sort |uniq)
 	OLDIFS=$IFS
-	IFS="\n"
+	IFS=$'\n'
 	for info in $INFO
 	do
 		echo -e "${GREEN}$info${ENDCOLOR}"
