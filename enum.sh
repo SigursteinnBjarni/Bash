@@ -52,8 +52,8 @@ fi
 echo "======= ASN info ======="
 IP=$(host $DOMAIN | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 AS=$(whois $IP | grep -E "OriginAS|origin" | awk -F " " '{print $2}')
-ORG=$(whois $IP | grep -E "org-name|OrgName")
-if [ -Z $ORG ]
+ORG=$(whois $IP | grep -E "org-name|OrgName" | cut -d ":" -f2 | sed 's/^ *//g' )
+if [ -z "$ORG" ]
 then
 	ORG=$(whois $DOMAIN | grep -m1 "role")
 fi
