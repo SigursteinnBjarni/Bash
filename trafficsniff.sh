@@ -3,7 +3,7 @@
 PACKETS=$1
 
 #Find username and passwords in unencrypted protocols
-tcpdump port http or port ftp or port smtp or port imap or port pop3 or port telnet -l -A -c1=|passw=|passwd=|password=|pass:|user:|username:|password:|login:|pass|user|auth' | grep -v "User-Agent" >> passgrab.txt &
+tcpdump port http or port ftp or port smtp or port imap or port pop3 or port telnet -l -A -c $PACKETS | egrep -i -B5 'pass=|pwd=|log=|login=|user=|username=|pw=|passw=|passwd=|password=|pass:|user:|username:|password:|login:|pass|user|auth' | grep -v "User-Agent" >> passgrab.txt &
 
 #Detectp ipv6
 tcpdump -nn ip6 proto 6 -c 2 > ipv6_confirm.txt &
